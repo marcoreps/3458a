@@ -16,7 +16,7 @@ def mread(instr, lo, hi):
 	return l
 
 def nvram(instr,  fname="hp3458.calram.bin"):
-	l=instr.mread(instr, 0x60000, 0x60000 + 2048 * 2)
+	l=mread(instr, 0x60000, 0x60000 + 2048 * 2)
 	fo = open(fname, "w")
 	for i in l:
 		fo.write("%c" % (i >> 8))
