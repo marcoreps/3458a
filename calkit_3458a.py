@@ -833,11 +833,11 @@ for ix in range (0,27):
     #F5700EP.close()
     #dmm = rm.open_resource('GPIB0::9::INSTR')
     dmm.timeout = None 
-    if ix == 23:
+    #if ix == 23:
         #time.sleep(300)
-    elif ix == 25:
+    #elif ix == 25:
         #time.sleep(600)
-    else:
+    #else:
         #time.sleep(10)
     for i in range (0,5):
         dmm.write("TARM SGL")
