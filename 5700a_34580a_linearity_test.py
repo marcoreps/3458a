@@ -97,8 +97,8 @@ def measure(inst):
         else:
             inst['inst'].write("INITiate")
             inst['inst'].write("*TRG")
-            reading = float(inst['inst'].query("FETCH?"))/n_measurements_per_meter_per_point
-            logging.info(f"A 34470A read {reading}")
+            reading += float(inst['inst'].query("FETCH?"))/n_measurements_per_meter_per_point
+            logging.debug(f"A 34470A read {reading}")
     return reading
     
 def one_sweep(instruments_dict, source, filename):
