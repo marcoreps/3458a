@@ -422,12 +422,12 @@ for ix in range (0,17):
     #F5700EP.close()
     #dmm = rm.open_resource('GPIB0::9::INSTR')
     dmm.timeout = None    
-    if ix < 13 and ix >= 6:
+    #if ix < 13 and ix >= 6:
         #time.sleep(60)
-    else:
-        dmm.write("TARM AUTO")
+    #else:
+        #dmm.write("TARM AUTO")
         #time.sleep(600) # waiting 600s at range 1M to 100M and 1 to 100R
-        dmm.write("TARM HOLD")
+        #dmm.write("TARM HOLD")
     for i in range (0,10):
         dmm.write("TARM SGL")
         res = float(dmm.read())
