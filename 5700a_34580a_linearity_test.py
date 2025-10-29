@@ -15,8 +15,16 @@ voltage_max = 10
 random_voltage_offset_range = 1.0
 n_test_points = 20
 NPLC = 10
-n_measurements_per_meter_per_point = 1
-soak_time = 1
+n_measurements_per_meter_per_point = 5
+soak_time = 10
+
+
+tmp119_serial_port = '/dev/ttyACM1'
+tmp119_baud_rate = 115200
+ser = None
+ser = serial.Serial(SERIAL_PORT, SERIAL_BAUD_RATE, timeout=10) 
+ser.flushInput()
+
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)-8s %(message)s')
 logging.info("Starting ...")
@@ -44,6 +52,7 @@ def setup_34470a(addr):
     inst.write("*CLS")
     inst.write("CONF:VOLT:DC 10")
     inst.write("SENS:VOLT:DC:NPLC "+str(NPLC))
+    inst.write("SENSe:VOLTage:DC:IMPedance:AUTO ON")
     inst.write("TRIG:SOURce BUS")
     logging.info("ID? -> "+inst.query("*IDN?"))
     return inst
@@ -61,17 +70,31 @@ def setup_5700a(addr):
     logging.info("ID? -> "+inst.query("*IDN?"))
     return inst
     
+def read_serial_tmp119():
+    while ser.in_waiting > 0:
+        line_bytes = ser.readline()
+        if not line_bytes:
+            continue
+
+        line = line_bytes.decode('utf-8').strip()
+        if line.startswith("Temperature:"):
+            temp_str = line.split(':')[1]
+            temperature = float(temp_str)
+            return temperature
+    
 def measure(inst):
     reading = 0
     for n in range(n_measurements_per_meter_per_point):
         if inst['type'] == '3458A':
             reading += float(inst['inst'].query("TARM SGL"))/n_measurements_per_meter_per_point
-            logging.info(f"A 3458A read {reading}")
+            logging.debug(f"A 3458A read {reading}")
+        else if inst['type'] == 'tmp119':
+            reading = read_serial_tmp119()
         else:
             inst['inst'].write("INITiate")
             inst['inst'].write("*TRG")
             reading = float(inst['inst'].query("FETCH?"))/n_measurements_per_meter_per_point
-            logging.info(f"A 34470A read {reading}")
+            logging.debug(f"A 34470A read {reading}")
     return reading
     
 def one_sweep(instruments_dict, source, filename):
@@ -110,6 +133,7 @@ instruments['3458A_US28028957'] = {'type': '3458A', 'inst': setup_3458a('gpib0::
 instruments['3458A_MY59352556'] = {'type': '3458A', 'inst': setup_3458a('gpib0::22::INSTR'), "results": [0] * n_test_points}
 instruments['3458A_2823A25425'] = {'type': '3458A', 'inst': setup_3458a('gpib0::5::INSTR'), "results": [0] * n_test_points}
 instruments['34470A'] = {'type': '34470A', 'inst': setup_34470a('TCPIP::192.168.0.103::inst0::INSTR'), "results": [0] * n_test_points}
+instruments['tmp119'] = {'type': 'tmp119', "results": [0] * n_test_points}
 
 source = setup_5700a('GPIB0::1::INSTR')
 
