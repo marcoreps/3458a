@@ -186,7 +186,7 @@ if abs(volt) > 1e-3:
 #DCV test Zero input
 print("OFFSET TESTS (NOTE: Math Null is Disabled)")
 dmm.write("DCV 0.1")
-dmm.write("MATH NULL")
+#dmm.write("MATH NULL")
 #time.sleep(100)
 
 for ix in range (0,5):
@@ -335,7 +335,7 @@ dmm.timeout = None
 dmm.write("OHM 10")
 dmm.write("OCOMP ON")
 dmm.write("DELAY 1")
-dmm.write("MATH NULL")
+#dmm.write("MATH NULL")
 #time.sleep(100)
 
 #dmm.close()
