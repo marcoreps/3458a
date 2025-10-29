@@ -73,7 +73,7 @@ def setup_5700a(addr):
     return inst
     
 def read_serial_tmp119():
-    logging.debug("read_serial_tmp119")
+    logging.info("read_serial_tmp119")
     while ser.in_waiting > 0:
         line_bytes = ser.readline()
         if not line_bytes:
@@ -81,7 +81,7 @@ def read_serial_tmp119():
 
         line = line_bytes.decode('utf-8').strip()
         if line.startswith("Temperature:"):
-            logging.debug("tmp119 line received")
+            logging.info("tmp119 line received")
             temp_str = line.split(':')[1]
             temperature = float(temp_str)
             return temperature
