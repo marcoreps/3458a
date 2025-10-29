@@ -8,14 +8,14 @@ import numpy as np
 import random
 import logging
 
-timestr = datetime.now().strftime("%Y%m%d-%H%M%S")
-measurement_filename = "INL/3458A_34470A_10V_INL_"+timestr+".csv"
+filename = "INL/3458A_34470A_10V_INL_"
 voltage_min = -10
 voltage_max = 10
 random_voltage_offset_range = 1.0
 n_test_points = 20
 NPLC = 10
 n_measurements_per_meter_per_point = 10
+soak_time = 10
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)-8s %(message)s')
 logging.info("Starting ...")
@@ -58,20 +58,42 @@ def setup_5700a(addr):
     logging.info("ID? -> "+inst.query("*IDN?"))
     return inst
     
-def one_sweep(instruments, source):
+def measure(inst):
+    idn = inst.query("*IDN?")
+    if idn[0] == 'H':
+        reading = inst.query("TARM SGL")
+        logging.info(f"A 3458A read {reading}")
+    else:
+        reading = inst.query("FETCH?")
+        logging.info(f"A 34470A read {reading}")
+    return reading
+    
+def one_sweep(instruments, source, filename):
+    timestr = datetime.now().strftime("%Y%m%d-%H%M%S")
+    filename = filename+timestr+".csv"
     test_points = np.linspace(voltage_min, voltage_max, n_test_points)
     test_points += random.uniform(random_voltage_offset_range*-0.5, random_voltage_offset_range*0.5)
     logging.info(f"Todays lucky numbers are:\n{test_points}")
+    i = 0
+    for v in test_points:
+        source.write("OUT %.7f" % v)
+        time.sleep(soak_time)
+        random.shuffle(instruments)
+        for inst in instruments:
+            inst["results"][i]=measure(inst["inst"])
+        i += 1
+            
+        
 
 
-instruments["3458B"]=setup_3458a('TCPIP::192.168.0.5::gpib0,23')
-instruments["3458P"]=setup_3458a('TCPIP::192.168.0.5::gpib0,22')
-instruments["3458H"]=setup_3458a('gpib0::21::INSTR')
-instruments['3458A_MY45054264']=setup_3458a('gpib0::2::INSTR')
-instruments['3458A_US28028957']=setup_3458a('gpib0::24::INSTR')
-instruments['3458A_MY59352556']=setup_3458a('gpib0::22::INSTR')
-instruments['3458A_2823A25425']=setup_3458a('gpib0::5::INSTR')
-instruments['34470A']=setup_34470a('TCPIP::192.168.0.103::inst0::INSTR')
+instruments["3458B"]["inst"]=setup_3458a('TCPIP::192.168.0.5::gpib0,23')
+instruments["3458P"]["inst"]=setup_3458a('TCPIP::192.168.0.5::gpib0,22')
+instruments["3458H"]["inst"]=setup_3458a('gpib0::21::INSTR')
+instruments['3458A_MY45054264']["inst"]=setup_3458a('gpib0::2::INSTR')
+instruments['3458A_US28028957']["inst"]=setup_3458a('gpib0::24::INSTR')
+instruments['3458A_MY59352556']["inst"]=setup_3458a('gpib0::22::INSTR')
+instruments['3458A_2823A25425']["inst"]=setup_3458a('gpib0::5::INSTR')
+instruments['34470A']["inst"]=setup_34470a('TCPIP::192.168.0.103::inst0::INSTR')
 source=setup_5700a('GPIB0::1::INSTR')
 
 one_sweep(instruments, source)
