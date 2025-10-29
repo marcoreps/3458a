@@ -32,9 +32,9 @@ F5700EP.write("RANGELCK OFF")
 F5700EP.write("STBY") 
 F5700EP.write("OUT 0.0 V, 0 Hz")
 F5700EP.write("EXTGUARD OFF")
-#time.sleep(5)
+time.sleep(5)
 F5700EP.write("OPER")
-#time.sleep(5)
+time.sleep(5)
 print("SRC configured")
 
 #F5700EP.close()
@@ -280,7 +280,7 @@ for ix in range (0,42):
         #time.sleep(500) # waiting 300s at 500 and 1000V
         dmm.write("TARM HOLD")        
     #else:
-        #time.sleep(10)
+        time.sleep(10)
     for i in range (0,10):
         dmm.write("TARM SGL")
         volt = float(dmm.read())
@@ -306,9 +306,9 @@ for ix in range (0,42):
 #F5700EP = rm.open_resource('GPIB0::1::INSTR')
     
 F5700EP.write("OUT 250 V, 0 Hz")
-#time.sleep(5)
+time.sleep(5)
 F5700EP.write("OUT 0 V, 0 Hz")
-#time.sleep(5)
+time.sleep(5)
 F5700EP.write("STBY")    
 ws['C373'] = float("%.2f" % ((time.time() - time_start)/60))
 wb.save("test_3458a_"+timestr+".xlsx")
@@ -327,7 +327,7 @@ MFC_OHM_list = ["1 OHM","1.9 OHM","10 OHM","19 OHM","100 OHM","190 OHM","1 KOHM"
 F5700EP.write("OUT 0 OHM")
 F5700EP.write("EXTSENSE ON")
 F5700EP.write("OPER")
-#time.sleep(10)
+time.sleep(10)
 
 #F5700EP.close()
 #dmm = rm.open_resource('GPIB0::9::INSTR')
@@ -336,7 +336,7 @@ dmm.write("OHM 10")
 dmm.write("OCOMP ON")
 dmm.write("DELAY 1")
 dmm.write("MATH NULL")
-##time.sleep(100)
+#time.sleep(100)
 
 #dmm.close()
 
