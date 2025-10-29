@@ -44,6 +44,7 @@ def setup_34470a(addr):
     inst.write("CONF:VOLT:DC 10")
     inst.write("SENS:VOLT:DC:NPLC "+str(NPLC))
     inst.write("TRIG:SOURce BUS")
+    inst.write("INITiate")
     logging.info("ID? -> "+inst.query("*IDN?"))
     return inst
     
@@ -59,12 +60,15 @@ def setup_5700a(addr):
     return inst
     
 def measure(inst):
-    if inst['type'] == '3458A':
-        reading = inst['inst'].query("TARM SGL")
-        logging.info(f"A 3458A read {reading}")
-    else:
-        reading = inst['inst'].query("FETCH?")
-        logging.info(f"A 34470A read {reading}")
+    reading = 0
+    for n in n_measurements_per_meter_per_point:
+        if inst['type'] == '3458A':
+            reading += float(inst['inst'].query("TARM SGL"))/n_measurements_per_meter_per_point
+            logging.info(f"A 3458A read {reading}")
+        else:
+            inst['inst'].write("*TRG")
+            reading = float(inst['inst'].query("FETCH?"))/n_measurements_per_meter_per_point
+            logging.info(f"A 34470A read {reading}")
     return reading
     
 def one_sweep(instruments_list, source, filename):
