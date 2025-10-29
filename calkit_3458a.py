@@ -934,7 +934,7 @@ for ix in range (0,54):
         dmm.write("TARM AUTO")
         #time.sleep(600)
         dmm.write("TARM HOLD")        
-    else:
+    #else:
         #time.sleep(10)
     for i in range (0,5):
         dmm.write("TARM SGL")
