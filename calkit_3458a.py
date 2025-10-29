@@ -27,8 +27,6 @@ timestr = datetime.now().strftime("%Y%m%d-%H%M%S")
 F5700EP.write("*RST")
 F5700EP.write("*CLS")
 F5700EP.write("RANGELCK OFF")
-#F5700EP.write("OUT 10 V, 0 Hz")
-#F5700EP.write("RANGELCK ON")
 F5700EP.write("STBY") 
 F5700EP.write("OUT 0.0 V, 0 Hz")
 F5700EP.write("EXTGUARD OFF")
@@ -37,8 +35,6 @@ F5700EP.write("OPER")
 time.sleep(5)
 print("SRC configured")
 
-#F5700EP.close()
-#dmm = rm.open_resource('GPIB0::9::INSTR')
 dmm.timeout = 100000
 dmm.clear()
 dmm.write("RESET")
@@ -241,7 +237,7 @@ dmm.write("DCV 1000")
 for ix in range (0,42):
     
     #dmm = rm.open_resource('GPIB0::9::INSTR')
-    dmm.timeout = None    
+
     array = []
     sdev = 0.0
     median = 0.0
@@ -274,7 +270,7 @@ for ix in range (0,42):
     
     #F5700EP.close()
     #dmm = rm.open_resource('GPIB0::9::INSTR')
-    dmm.timeout = None    
+
     if ix == 36 or ix == 37 or ix >= 40:
         dmm.write("TARM AUTO")
         #time.sleep(500) # waiting 300s at 500 and 1000V
@@ -342,7 +338,7 @@ dmm.write("DELAY 1")
 
 for ix in range (0,17):
     #dmm = rm.open_resource('GPIB0::9::INSTR')
-    dmm.timeout = None    
+
     array = []
     sdev = 0.0
     median = 0.0
@@ -397,15 +393,11 @@ for ix in range (0,17):
         print("DMM OHMS FWR Range: 10 MOHM")
     elif ix == 15:
         dmm.write("OHMF 100000000")
+        F5700EP.write("EXTSENSE OFF")
         print("DMM OHMS FWR Range: 100 MOHM")
     elif ix == 16:
         dmm.write("OHMF 100000000")
-        #dmm.close()
-        #F5700EP = rm.open_resource('GPIB0::1::INSTR')
         F5700EP.write("EXTSENSE OFF")
-        #F5700EP.close()
-        #dmm = rm.open_resource('GPIB0::9::INSTR')
-        dmm.timeout = None    
         print("DMM OHMS FWR Range: 100 MOHM0") 
         
     #dmm.close()
@@ -416,7 +408,7 @@ for ix in range (0,17):
     
     #F5700EP.close()
     #dmm = rm.open_resource('GPIB0::9::INSTR')
-    dmm.timeout = None    
+
     #if ix < 13 and ix >= 6:
         #time.sleep(60)
     #else:
@@ -464,7 +456,7 @@ F5700EP.write("OPER")
 
 for ix in range (0,8):
     #dmm = rm.open_resource('GPIB0::9::INSTR')
-    dmm.timeout = None    
+
     array = []
     sdev = 0.0
     median = 0.0
@@ -854,12 +846,7 @@ for ix in range (0,27):
         ws['D' + str(287+ix)] = float(cutstr[0])*1e6/median
     else:    
         ws['D' + str(287+ix)] = float(cutstr[0])
-    dmm.write("DEVTN? READING")
-    Quality = float(dmm.read())
-    ws['K' + str(287+ix)] = Quality
-    print("Source = %s, dmm = %.10f A,  sdev = %.3f ppm, Quality(DMM) = %s" % (iout, median, sdev*1e6/median, Quality))
-    print(array)
-    #dmm.close()
+
 wb.save("test_3458a_"+timestr+".xlsx")
 
 #F5700EP = rm.open_resource('GPIB0::1::INSTR')
@@ -913,9 +900,9 @@ for ix in range (0,54):
         ACIrange = "1"
   
     if cutstr[3] == "Hz":
-        dmm.write("ACI %s,FREQ_%s" %(ACIrange,cutstr[2]))
+        dmm.write("ACI %s" % ACIrange)
     elif cutstr[3] == "KHz":
-        dmm.write("ACI %s,FREQ_%sk" %(ACIrange,cutstr[2]))
+        dmm.write("ACI %s" % ACIrange)
     else:
         dmm.write("ACI 1")        
     #dmm.close()
@@ -951,12 +938,6 @@ for ix in range (0,54):
         ws['D' + str(317+ix)] = float(cutstr[0])*1e6/median
     else:
         ws['D' + str(317+ix)] = float(cutstr[0])
-    dmm.write("DEVTN? READING")
-    Quality = float(dmm.read())
-    ws['K' + str(317+ix)] = Quality
-    print("Source = %s, dmm = %.10f A,  sdev = %.3f ppm, Quality(DMM) =  %s" % (iout, median, sdev*1e6/median, Quality)) 
-    print(array)
-    #dmm.close()
 
 ws['G373'] = float("%.2f" % ((time.time() - time_start)/60))
 wb.save("test_3458a_"+timestr+".xlsx")
