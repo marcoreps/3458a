@@ -8,6 +8,8 @@ import numpy as np
 import random
 import logging
 import pandas as pd
+import serial
+
 
 filename = "INL/3458A_34470A_10V_INL_"
 voltage_min = -10
