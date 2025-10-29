@@ -18,7 +18,7 @@ rm = visa.ResourceManager()
 #dmm = rm.open_resource("TCPIP::192.168.0.88::GPIB0,9") # Ethernet GPIB Dongle
 
 F5700EP = rm.open_resource('GPIB0::1::INSTR') # Local GPIB Dongle
-dmm = rm.open_resource('GPIB0::10::INSTR') # Local GPIB Dongle
+dmm = rm.open_resource('GPIB0::24::INSTR') # Local GPIB Dongle
 
 timestr = datetime.now().strftime("%Y%m%d-%H%M%S")
 
@@ -284,7 +284,7 @@ for ix in range (0,42):
         dmm.write("TARM AUTO")
         #time.sleep(500) # waiting 300s at 500 and 1000V
         dmm.write("TARM HOLD")        
-    else:
+    #else:
         #time.sleep(10)
     for i in range (0,10):
         dmm.write("TARM SGL")
