@@ -88,7 +88,7 @@ def measure(inst):
         if inst['type'] == '3458A':
             reading += float(inst['inst'].query("TARM SGL"))/n_measurements_per_meter_per_point
             logging.debug(f"A 3458A read {reading}")
-        else if inst['type'] == 'tmp119':
+        elif inst['type'] == 'tmp119':
             reading = read_serial_tmp119()
         else:
             inst['inst'].write("INITiate")
