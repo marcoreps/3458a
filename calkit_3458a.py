@@ -734,7 +734,7 @@ for ix in range (0,112):
         #time.sleep(600)#wait 10 minitue for the first 1kV testing point.
         dmm.write("TARM HOLD")
     else:
-        #time.sleep(10) 
+        time.sleep(10) 
     for i in range (0,10):
         dmm.write("TARM SGL")
         volt = float(dmm.read())
