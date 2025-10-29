@@ -68,9 +68,9 @@ def measure(inst):
         logging.info(f"A 34470A read {reading}")
     return reading
     
-def one_sweep(instruments, source, filename):
+def one_sweep(instruments_list, source, filename):
     timestr = datetime.now().strftime("%Y%m%d-%H%M%S")
-    filename = filename+timestr+".csv"
+    filename_with_time = filename+timestr+".csv"
     test_points = np.linspace(voltage_min, voltage_max, n_test_points)
     test_points += random.uniform(random_voltage_offset_range*-0.5, random_voltage_offset_range*0.5)
     logging.info(f"Todays lucky numbers are:\n{test_points}")
@@ -78,8 +78,8 @@ def one_sweep(instruments, source, filename):
     for v in test_points:
         source.write("OUT %.7f" % v)
         time.sleep(soak_time)
-        random.shuffle(instruments)
-        for inst in instruments:
+        random.shuffle(instruments_list)
+        for inst in instruments_list:
             inst["results"][i]=measure(inst["inst"])
         i += 1
             
@@ -98,4 +98,4 @@ instruments['34470A'] = {'inst': setup_34470a('TCPIP::192.168.0.103::inst0::INST
 source = setup_5700a('GPIB0::1::INSTR')
 
 
-one_sweep(instruments, source, filename)
+one_sweep(list(instruments.values()), source, filename)
