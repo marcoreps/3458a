@@ -93,11 +93,11 @@ def one_sweep(instruments_dict, source, filename):
     data = {"Set_Voltage (V)": test_points}
     
     for name, inst_data in instruments_dict.items():
-            data[name] = inst_data["results"]
+        data[name] = inst_data["results"]
             
-        df = pd.DataFrame(data)
-        df.to_csv(output_filename, index=False)
-        logging.info(f"Results successfully exported to {output_filename}")
+    df = pd.DataFrame(data)
+    df.to_csv(output_filename, index=False)
+    logging.info(f"Results successfully exported to {output_filename}")
 
 
 instruments["3458B"] = {'type': '3458A', 'inst': setup_3458a('TCPIP::192.168.0.5::gpib0,23'), "results": [0] * n_test_points}
