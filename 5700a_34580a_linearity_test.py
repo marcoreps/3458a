@@ -54,7 +54,9 @@ def setup_5700a(addr):
     inst.write("*RST")
     inst.write("*CLS")
     inst.write("STBY") 
-    inst.write("OUT 0.0 V, 0 Hz")
+    inst.write("OUT 10 V, 0 Hz")
+    inst.write("RANGELCK ON")
+    inst.write("OUT 0 V, 0 Hz")
     inst.write("OPER")
     logging.info("ID? -> "+inst.query("*IDN?"))
     return inst
