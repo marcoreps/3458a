@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import pyvisa as visa
+import pyvisa
 from datetime import datetime
 import time
 import numpy as np
