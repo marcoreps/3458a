@@ -65,7 +65,7 @@ def measure(inst):
             reading += float(inst['inst'].query("TARM SGL"))/n_measurements_per_meter_per_point
             logging.info(f"A 3458A read {reading}")
         else:
-            inst.write("INITiate")
+            inst['inst'].write("INITiate")
             inst['inst'].write("*TRG")
             reading = float(inst['inst'].query("FETCH?"))/n_measurements_per_meter_per_point
             logging.info(f"A 34470A read {reading}")
