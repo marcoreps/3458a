@@ -94,6 +94,7 @@ def measure(inst):
             logging.debug(f"A 3458A read {reading}")
         elif inst['type'] == 'tmp119':
             reading = read_serial_tmp119()
+            logging.info("tmp119 reads "+str(reading))
         else:
             inst['inst'].write("INITiate")
             inst['inst'].write("*TRG")
