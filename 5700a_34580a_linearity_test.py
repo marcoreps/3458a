@@ -59,8 +59,7 @@ def setup_5700a(addr):
     return inst
     
 def measure(inst):
-    idn = inst.query("*IDN?")
-    if idn[0] == 'H':
+    if inst['type'] == '3458A':
         reading = inst.query("TARM SGL")
         logging.info(f"A 3458A read {reading}")
     else:
@@ -86,14 +85,14 @@ def one_sweep(instruments_list, source, filename):
         
 
 
-instruments["3458B"] = {'inst': setup_3458a('TCPIP::192.168.0.5::gpib0,23'), "results": [0] * n_test_points}
-instruments["3458P"] = {'inst': setup_3458a('TCPIP::192.168.0.5::gpib0,22'), "results": [0] * n_test_points}
-instruments["3458H"] = {'inst': setup_3458a('gpib0::21::INSTR'), "results": [0] * n_test_points}
-instruments['3458A_MY45054264'] = {'inst': setup_3458a('gpib0::2::INSTR'), "results": [0] * n_test_points}
-instruments['3458A_US28028957'] = {'inst': setup_3458a('gpib0::24::INSTR'), "results": [0] * n_test_points}
-instruments['3458A_MY59352556'] = {'inst': setup_3458a('gpib0::22::INSTR'), "results": [0] * n_test_points}
-instruments['3458A_2823A25425'] = {'inst': setup_3458a('gpib0::5::INSTR'), "results": [0] * n_test_points}
-instruments['34470A'] = {'inst': setup_34470a('TCPIP::192.168.0.103::inst0::INSTR'), "results": [0] * n_test_points}
+instruments["3458B"] = {'type': '3458A', 'inst': setup_3458a('TCPIP::192.168.0.5::gpib0,23'), "results": [0] * n_test_points}
+instruments["3458P"] = {'type': '3458A', 'inst': setup_3458a('TCPIP::192.168.0.5::gpib0,22'), "results": [0] * n_test_points}
+instruments["3458H"] = {'type': '3458A', 'inst': setup_3458a('gpib0::21::INSTR'), "results": [0] * n_test_points}
+instruments['3458A_MY45054264'] = {'type': '3458A', 'inst': setup_3458a('gpib0::2::INSTR'), "results": [0] * n_test_points}
+instruments['3458A_US28028957'] = {'type': '3458A', 'inst': setup_3458a('gpib0::24::INSTR'), "results": [0] * n_test_points}
+instruments['3458A_MY59352556'] = {'type': '3458A', 'inst': setup_3458a('gpib0::22::INSTR'), "results": [0] * n_test_points}
+instruments['3458A_2823A25425'] = {'type': '3458A', 'inst': setup_3458a('gpib0::5::INSTR'), "results": [0] * n_test_points}
+instruments['34470A'] = {'type': '34470A', 'inst': setup_34470a('TCPIP::192.168.0.103::inst0::INSTR'), "results": [0] * n_test_points}
 
 source = setup_5700a('GPIB0::1::INSTR')
 
