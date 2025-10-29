@@ -24,7 +24,7 @@ soak_time = 10
 tmp119_serial_port = '/dev/ttyACM1'
 tmp119_baud_rate = 115200
 ser = None
-ser = serial.Serial(SERIAL_PORT, SERIAL_BAUD_RATE, timeout=10) 
+ser = serial.Serial(tmp119_serial_port, tmp119_baud_rate, timeout=10) 
 ser.flushInput()
 
 
