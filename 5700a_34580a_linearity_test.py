@@ -60,10 +60,10 @@ def setup_5700a(addr):
     
 def measure(inst):
     if inst['type'] == '3458A':
-        reading = inst.query("TARM SGL")
+        reading = inst['inst'].query("TARM SGL")
         logging.info(f"A 3458A read {reading}")
     else:
-        reading = inst.query("FETCH?")
+        reading = inst['inst'].query("FETCH?")
         logging.info(f"A 34470A read {reading}")
     return reading
     
@@ -79,7 +79,7 @@ def one_sweep(instruments_list, source, filename):
         time.sleep(soak_time)
         random.shuffle(instruments_list)
         for inst in instruments_list:
-            inst["results"][i]=measure(inst["inst"])
+            inst["results"][i]=measure(inst)
         i += 1
             
         
