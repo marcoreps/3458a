@@ -7,6 +7,7 @@ import time
 import numpy as np
 import random
 import logging
+import pandas as pd
 
 filename = "INL/3458A_34470A_10V_INL_"
 voltage_min = -10
@@ -14,8 +15,8 @@ voltage_max = 10
 random_voltage_offset_range = 1.0
 n_test_points = 20
 NPLC = 10
-n_measurements_per_meter_per_point = 10
-soak_time = 10
+n_measurements_per_meter_per_point = 1
+soak_time = 1
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)-8s %(message)s')
 logging.info("Starting ...")
@@ -71,12 +72,15 @@ def measure(inst):
             logging.info(f"A 34470A read {reading}")
     return reading
     
-def one_sweep(instruments_list, source, filename):
+def one_sweep(instruments_dict, source, filename):
     timestr = datetime.now().strftime("%Y%m%d-%H%M%S")
-    filename_with_time = filename+timestr+".csv"
+    output_filename = filename+timestr+".csv"
     test_points = np.linspace(voltage_min, voltage_max, n_test_points)
     test_points += random.uniform(random_voltage_offset_range*-0.5, random_voltage_offset_range*0.5)
     logging.info(f"Todays lucky numbers are:\n{test_points}")
+    
+    instruments_list = list(instruments_dict.values())
+    
     i = 0
     for v in test_points:
         source.write("OUT %.7f" % v)
@@ -85,8 +89,15 @@ def one_sweep(instruments_list, source, filename):
         for inst in instruments_list:
             inst["results"][i]=measure(inst)
         i += 1
+
+    data = {"Set_Voltage (V)": test_points}
+    
+    for name, inst_data in instruments_dict.items():
+            data[name] = inst_data["results"]
             
-        
+        df = pd.DataFrame(data)
+        df.to_csv(output_filename, index=False)
+        logging.info(f"Results successfully exported to {output_filename}")
 
 
 instruments["3458B"] = {'type': '3458A', 'inst': setup_3458a('TCPIP::192.168.0.5::gpib0,23'), "results": [0] * n_test_points}
