@@ -17,6 +17,9 @@ n_test_points = 20
 NPLC = 10
 n_measurements_per_meter_per_point = 10
 
+logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)-8s %(message)s')
+logging.info("Starting ...")
+
 instruments = dict()
 rm = pyvisa.ResourceManager()
 
@@ -40,10 +43,7 @@ def setup_34470a(addr):
     inst.write("*CLS")
     inst.write("CONF:VOLT:DC 10")
     inst.write("SENS:VOLT:DC:NPLC "+str(NPLC))
-    inst.write("SENS:VOLT:DC:AZERO ON")
-    inst.write("TRIG:SOURce AUTO")
-    inst.write("TRIG:COUN INF")
-    inst.write("SAMP:COUN 1")
+    inst.write("TRIG:SOURce BUS")
     logging.info("ID? -> "+inst.query("*IDN?"))
     return inst
     
@@ -62,7 +62,8 @@ def one_sweep(instruments, source):
     test_points = np.linspace(voltage_min, voltage_max, n_test_points)
     test_points += random.uniform(random_voltage_offset_range*-0.5, random_voltage_offset_range*0.5)
     logging.info(f"Todays lucky numbers are:\n{test_points}")
-    
+
+
 instruments["3458B"]=setup_3458a('TCPIP::192.168.0.5::gpib0,23')
 instruments["3458P"]=setup_3458a('TCPIP::192.168.0.5::gpib0,22')
 instruments["3458H"]=setup_3458a('gpib0::21::INSTR')
