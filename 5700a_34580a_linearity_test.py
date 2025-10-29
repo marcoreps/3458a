@@ -61,7 +61,7 @@ def setup_5700a(addr):
     
 def measure(inst):
     reading = 0
-    for n in n_measurements_per_meter_per_point:
+    for n in range(n_measurements_per_meter_per_point):
         if inst['type'] == '3458A':
             reading += float(inst['inst'].query("TARM SGL"))/n_measurements_per_meter_per_point
             logging.info(f"A 3458A read {reading}")
