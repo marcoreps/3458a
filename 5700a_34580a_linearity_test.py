@@ -17,8 +17,8 @@ voltage_max = 10
 random_voltage_offset_range = 1.0
 n_test_points = 20
 NPLC = 10
-n_measurements_per_meter_per_point = 5
-soak_time = 10
+n_measurements_per_meter_per_point = 10
+soak_time = 20
 
 
 tmp119_serial_port = '/dev/ttyACM1'
