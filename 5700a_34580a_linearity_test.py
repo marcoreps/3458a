@@ -112,4 +112,4 @@ instruments['34470A'] = {'type': '34470A', 'inst': setup_34470a('TCPIP::192.168.
 source = setup_5700a('GPIB0::1::INSTR')
 
 
-one_sweep(list(instruments.values()), source, filename)
+one_sweep(instruments, source, filename)
