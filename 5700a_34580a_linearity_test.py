@@ -73,7 +73,7 @@ def setup_5700a(addr):
     return inst
     
 def read_serial_tmp119():
-    logging.info("read_serial_tmp119")
+    logging.debug("read_serial_tmp119")
     while ser.in_waiting > 0:
         line_bytes = ser.readline()
         if not line_bytes:
@@ -81,7 +81,7 @@ def read_serial_tmp119():
 
         line = line_bytes.decode('utf-8').strip()
         if line.startswith("Temperature:"):
-            logging.info("tmp119 line received")
+            logging.debug("tmp119 line received")
             temp_str = line.split(':')[1]
             temperature = float(temp_str)
             return temperature
@@ -93,8 +93,7 @@ def measure(inst):
             reading += float(inst['inst'].query("TARM SGL"))/n_measurements_per_meter_per_point
             logging.debug(f"A 3458A read {reading}")
         elif inst['type'] == 'tmp119':
-            reading = read_serial_tmp119()
-            logging.info("tmp119 reads "+str(reading))
+            return read_serial_tmp119() 
         else:
             inst['inst'].write("INITiate")
             inst['inst'].write("*TRG")
