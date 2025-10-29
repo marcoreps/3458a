@@ -225,12 +225,7 @@ for ix in range (0,5):
     
     #F5700EP.close()
     #dmm = rm.open_resource('GPIB0::9::INSTR')
-    dmm.timeout = None    
-    dmm.write("DEVTN? ABSOLUTE")
-    Quality = float(dmm.read())
-    ws['K' + str(45+ix)] = Quality*1e6        
-    print("Source = %s, dmm = %.10f V,  sdev = %.3f uV, Quality(DMM) = %.3f uV" % ("0 V", median, sdev*1e6, Quality*1e6))
-    print(array)
+
 wb.save("test_3458a_"+timestr+".xlsx")
 
 ### DCV test 0.01V to 1000V ###
