@@ -141,5 +141,5 @@ instruments['tmp119'] = {'type': 'tmp119', "results": [0] * n_test_points}
 
 source = setup_5700a('GPIB0::1::INSTR')
 
-
-one_sweep(instruments, source, filename)
+for i in range(5):
+    one_sweep(instruments, source, filename)
