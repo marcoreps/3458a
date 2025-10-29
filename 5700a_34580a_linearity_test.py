@@ -20,16 +20,6 @@ n_measurements_per_meter_per_point = 10
 instruments = dict()
 rm = pyvisa.ResourceManager()
 
-instruments["3458B"]=setup_3458a('TCPIP::192.168.0.5::gpib0,23')
-instruments["3458P"]=setup_3458a('TCPIP::192.168.0.5::gpib0,22')
-instruments["3458H"]=setup_3458a('gpib0::21::INSTR')
-instruments['3458A_MY45054264']=setup_3458a('gpib0::2::INSTR')
-instruments['3458A_US28028957']=setup_3458a('gpib0::24::INSTR')
-instruments['3458A_MY59352556']=setup_3458a('gpib0::22::INSTR')
-instruments['3458A_2823A25425']=setup_3458a('gpib0::5::INSTR')
-instruments['34470A']=setup_34470a('TCPIP::192.168.0.103::inst0::INSTR')
-source=setup_5700a('GPIB0::1::INSTR')
-
 def setup_3458a(addr):
     inst = rm.open_resource(addr)
     inst.clear()
@@ -73,4 +63,14 @@ def one_sweep(instruments, source):
     test_points += random.uniform(random_voltage_offset_range*-0.5, random_voltage_offset_range*0.5)
     logging.info(f"Todays lucky numbers are:\n{test_points}")
     
+instruments["3458B"]=setup_3458a('TCPIP::192.168.0.5::gpib0,23')
+instruments["3458P"]=setup_3458a('TCPIP::192.168.0.5::gpib0,22')
+instruments["3458H"]=setup_3458a('gpib0::21::INSTR')
+instruments['3458A_MY45054264']=setup_3458a('gpib0::2::INSTR')
+instruments['3458A_US28028957']=setup_3458a('gpib0::24::INSTR')
+instruments['3458A_MY59352556']=setup_3458a('gpib0::22::INSTR')
+instruments['3458A_2823A25425']=setup_3458a('gpib0::5::INSTR')
+instruments['34470A']=setup_34470a('TCPIP::192.168.0.103::inst0::INSTR')
+source=setup_5700a('GPIB0::1::INSTR')
+
 one_sweep(instruments, source)
