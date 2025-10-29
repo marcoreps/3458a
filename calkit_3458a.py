@@ -520,7 +520,7 @@ wb.save("test_3458a_"+timestr+".xlsx")
 
 #dmm = rm.open_resource('GPIB0::9::INSTR')
 dmm.timeout = None 
-dmm.write("OHMS 10")
+dmm.write("OHM 10")
 #dmm.close()
 #F5700EP = rm.open_resource('GPIB0::1::INSTR')
 ### OHM zero 2w ###
