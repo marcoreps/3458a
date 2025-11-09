@@ -137,7 +137,7 @@ instruments['3458A_US28028957'] = {'type': '3458A', 'inst': setup_3458a('gpib0::
 instruments['3458A_MY59352556'] = {'type': '3458A', 'inst': setup_3458a('gpib0::22::INSTR'), "results": [0] * n_test_points}
 #instruments['3458A_2823A25425'] = {'type': '3458A', 'inst': setup_3458a('gpib0::5::INSTR'), "results": [0] * n_test_points}
 instruments['3458A_2823A07728'] = {'type': '3458A', 'inst': setup_3458a('gpib0::25::INSTR'), "results": [0] * n_test_points}
-#instruments['34470A'] = {'type': '34470A', 'inst': setup_34470a('TCPIP::192.168.0.103::inst0::INSTR'), "results": [0] * n_test_points}
+instruments['34470A'] = {'type': '34470A', 'inst': setup_34470a('TCPIP::192.168.0.101::inst0::INSTR'), "results": [0] * n_test_points}
 instruments['tmp119'] = {'type': 'tmp119', "results": [0] * n_test_points}
 
 source = setup_5700a('GPIB0::1::INSTR')
