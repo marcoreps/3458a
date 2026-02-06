@@ -132,11 +132,11 @@ def one_sweep(instruments_dict, source, filename):
 instruments["3458B"] = {'type': '3458A', 'inst': setup_3458a('TCPIP::192.168.0.5::gpib0,23'), "results": [0] * n_test_points}
 instruments["3458P"] = {'type': '3458A', 'inst': setup_3458a('TCPIP::192.168.0.5::gpib0,22'), "results": [0] * n_test_points}
 instruments["3458H"] = {'type': '3458A', 'inst': setup_3458a('gpib0::21::INSTR'), "results": [0] * n_test_points}
-instruments['3458A_MY45054264'] = {'type': '3458A', 'inst': setup_3458a('gpib0::2::INSTR'), "results": [0] * n_test_points}
-instruments['3458A_US28028957'] = {'type': '3458A', 'inst': setup_3458a('gpib0::24::INSTR'), "results": [0] * n_test_points}
-instruments['3458A_MY59352556'] = {'type': '3458A', 'inst': setup_3458a('gpib0::22::INSTR'), "results": [0] * n_test_points}
-#instruments['3458A_2823A25425'] = {'type': '3458A', 'inst': setup_3458a('gpib0::5::INSTR'), "results": [0] * n_test_points}
-instruments['3458A_2823A07728'] = {'type': '3458A', 'inst': setup_3458a('gpib0::25::INSTR'), "results": [0] * n_test_points}
+instruments['3458A_MY45'] = {'type': '3458A', 'inst': setup_3458a('gpib0::2::INSTR'), "results": [0] * n_test_points}
+instruments['3458A_US28'] = {'type': '3458A', 'inst': setup_3458a('gpib0::24::INSTR'), "results": [0] * n_test_points}
+instruments['3458A_MY59'] = {'type': '3458A', 'inst': setup_3458a('gpib0::22::INSTR'), "results": [0] * n_test_points}
+#instruments['3458A_2823A2'] = {'type': '3458A', 'inst': setup_3458a('gpib0::5::INSTR'), "results": [0] * n_test_points}
+instruments['3458A_2823A0'] = {'type': '3458A', 'inst': setup_3458a('gpib0::25::INSTR'), "results": [0] * n_test_points}
 instruments['34470A'] = {'type': '34470A', 'inst': setup_34470a('TCPIP::192.168.0.101::inst0::INSTR'), "results": [0] * n_test_points}
 instruments['tmp119'] = {'type': 'tmp119', "results": [0] * n_test_points}
 
